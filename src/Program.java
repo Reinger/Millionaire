@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +8,13 @@ import java.util.ArrayList;
 public class Program {
 
     public static void main(String args[]) {
+
+        Form form=new Form();
+        form.pack();
+        //form.setSize(new Dimension(200, 200));
+        form.setVisible(true);
+
+
         ArrayList<Question> questions = new ArrayList<Question>();
 
         try {
