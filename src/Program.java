@@ -11,11 +11,11 @@ public class Program {
 
         Form form=new Form();
         form.pack();
-        //form.setSize(new Dimension(200, 200));
+        form.setSize(new Dimension(500, 500));
         form.setVisible(true);
 
 
-        ArrayList<Question> questions = new ArrayList<Question>();
+        /*ArrayList<Question> questions = new ArrayList<Question>();
 
         try {
             FileInputStream fstream = new FileInputStream("Voprosy.txt");
@@ -29,9 +29,6 @@ public class Program {
         } catch (
                 IOException e) {
             System.out.println("Ошибка");
-        }
-
-        for (Question q : questions)
-            q.Show();
+        }*/
     }
 }

@@ -9,7 +9,7 @@ public class Form extends JFrame {
     private JPanel panelButtons;
     private JPanel panelArt;
 
-    public Form() {
+    Form() {
         this.getContentPane().add(panel);
     }
 }
