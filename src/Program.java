@@ -10,6 +10,7 @@ public class Program {
     public static void main(String args[]) {
 
         ArrayList<Question> questions = new ArrayList<Question>();
+        Generation random=new Generation();
 
         try {
             FileInputStream fstream = new FileInputStream("Voprosy.txt");
@@ -27,14 +28,10 @@ public class Program {
 
         Form form=new Form();
         form.pack();
-        form.setSize(new Dimension(500, 500));
+        //form.setSize(new Dimension(500,500));
         form.setVisible(true);
 
-        form.labelQuestion.setText(questions.get(0).question);
-        form.buttonAnswer1.setText(questions.get(0).options[0]);
-        form.buttonAnswer2.setText(questions.get(0).options[1]);
-        form.buttonAnswer3.setText(questions.get(0).options[2]);
-        form.buttonAnswer4.setText(questions.get(0).options[3]);
 
+        form.setQuestion(questions.get(random.Generat(0)));
     }
 }

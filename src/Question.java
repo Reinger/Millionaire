@@ -2,7 +2,7 @@ public class Question {
     String question;
     String[] options = new String[4];
     int answer;
-    int difficult;
+    int level;
 
 /*    Question(){
         question="Вопрос";
@@ -31,10 +31,10 @@ public class Question {
         options[2] = s[3];
         options[3] = s[4];
         answer = Integer.decode(s[5]);
-        difficult = Integer.decode(s[6]);
+        level = Integer.decode(s[6]);
     }
 
     public void Show() {
-        System.out.println(question + ' ' + options[0] + ' ' + options[1] + ' ' + options[2] + ' ' + options[3] + ' ' + answer + ' ' + difficult);
+        System.out.println(question + ' ' + options[0] + ' ' + options[1] + ' ' + options[2] + ' ' + options[3] + ' ' + answer + ' ' + level);
     }
 }
