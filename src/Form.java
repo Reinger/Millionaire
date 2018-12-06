@@ -21,6 +21,9 @@ public class Form extends JFrame {
     private JLabel labelHalf;
     private JLabel labelHall;
     private JLabel labelCall;
+    private JPanel panelRating;
+    private JPanel panelMain;
+    private JList listRating;
 
     Form() {
         this.getContentPane().add(panel);
