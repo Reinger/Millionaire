@@ -1,3 +1,4 @@
+/*
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -32,6 +33,8 @@ public class Program {
         form.setVisible(true);
 
 
+
         form.setQuestion(questions.get(random.Generat(0)));
     }
 }
+*/

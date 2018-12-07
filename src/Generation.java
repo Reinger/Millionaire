@@ -50,6 +50,6 @@ public class Generation {
     };
 
     public int Generat(int n) {
-        return (new Random().nextInt(difficult[n][1] - difficult[n][0] + 1) + difficult[n][0]);
+        return (new Random().nextInt(difficult[n-1][1] - difficult[n-1][0] + 1) + difficult[n-1][0]);
     }
 }

@@ -1,5 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Form extends JFrame {
     private JPanel panel;
@@ -24,10 +33,50 @@ public class Form extends JFrame {
     private JPanel panelRating;
     private JPanel panelMain;
     private JList listRating;
+    private JButton buttonNewGame;
 
-    Form() {
-        this.getContentPane().add(panel);
+    private static ArrayList<Question> questions = new ArrayList<Question>();
+    private static Question question;
+    private static Generation random = new Generation();//Отправляем нужный уровень
+    private static int level;
+
+    public Form() {
+        buttonNewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                level=1;
+                question=questions.get(random.Generat(level));
+                setQuestion(question);
+            }
+        });
     }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Form");
+        frame.setContentPane(new Form().panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+
+        ParsingQuestion();
+    }
+
+    private static void ParsingQuestion() {
+        try {
+            FileInputStream fstream = new FileInputStream("Voprosy.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            String strLine;
+
+            while ((strLine = br.readLine()) != null) {
+                String[] s = strLine.split("\t");
+                questions.add(new Question(s));
+            }
+        } catch (
+                IOException e) {
+            System.out.println("Ошибка");
+        }
+    }
+
 
     public void setQuestion(Question question) {
 
@@ -42,3 +91,5 @@ public class Form extends JFrame {
         buttonOption4.setText(question.options[3]);
     }
 }
+
+
