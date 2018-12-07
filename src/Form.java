@@ -39,8 +39,9 @@ public class Form extends JFrame {
     private static Question question;
     private static Generation random = new Generation();//Отправляем нужный уровень
     private static int level;
+    private static int[] money = {0, 500, 1000, 2000, 3000, 5000, 10000, 15000, 25000, 50000, 100000, 200000, 400000, 800000, 1500000, 3000000};
 
-    public Form() {
+    private Form() {
         buttonNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,7 +87,7 @@ public class Form extends JFrame {
 
         ParsingQuestion();
     }
-
+    
     private static void ParsingQuestion() {
         try {
             FileInputStream fstream = new FileInputStream("Voprosy.txt");
@@ -123,7 +124,7 @@ public class Form extends JFrame {
         labelQuestion.setText(question.question);
 
         labelLevel.setText("Уровень: " + question.level);
-        labelMoney.setText("Очки: 0");
+        labelMoney.setText("Очки: "+money[level-1]);
 
         buttonOption1.setText(question.options[0]);
         buttonOption2.setText(question.options[1]);
