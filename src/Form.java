@@ -44,9 +44,35 @@ public class Form extends JFrame {
         buttonNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                level=1;
-                question=questions.get(random.Generat(level));
-                setQuestion(question);
+                NewGame();
+            }
+        });
+
+        buttonOption1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChekAnswer(1);
+            }
+        });
+
+        buttonOption2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChekAnswer(2);
+            }
+        });
+
+        buttonOption3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChekAnswer(3);
+            }
+        });
+
+        buttonOption4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChekAnswer(4);
             }
         });
     }
@@ -77,9 +103,23 @@ public class Form extends JFrame {
         }
     }
 
+    private void NewGame() {
+        level = 1;
+        question = questions.get(random.Generat(level));
+        setQuestion(question);
+    }
 
-    public void setQuestion(Question question) {
+    private void ChekAnswer(int k) {
+        if (k == question.answer) {
+            level++;
+            question = questions.get(random.Generat(level));
+            setQuestion(question);
+        } else {
+            NewGame();
+        }
+    }
 
+    private void setQuestion(Question question) {
         labelQuestion.setText(question.question);
 
         labelLevel.setText("Уровень: " + question.level);
