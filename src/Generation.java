@@ -52,4 +52,18 @@ public class Generation {
     public int Generat(int n) {
         return (new Random().nextInt(difficult[n-1][1] - difficult[n-1][0] + 1) + difficult[n-1][0]);
     }
+
+    public int[] GeneratHalf(int n){
+        int k;
+        int[] a={1, 1, 1, 1};
+
+        do{
+            k=new Random().nextInt(3);
+        }while(k!=n-1);
+
+        a[n-1]=0;
+        a[k]=0;
+
+        return a;
+    }
 }

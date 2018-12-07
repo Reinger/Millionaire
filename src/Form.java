@@ -9,29 +9,35 @@ import java.util.ArrayList;
 
 public class Form extends JFrame {
     private JPanel panel;
+    private JPanel panelButtons;
+    private JPanel panelArt;
+    private JPanel panelLevel;
+    private JPanel panelHelp;
+    private JPanel panelQuestion;
+    private JPanel panelTop;
+    private JPanel panelRating;
+    private JPanel panelMain;
+    private JPanel panelNewGame;
+
+    private JLabel labelArt;
+
+    private JLabel labelQuestion;
     private JButton buttonOption3;
     private JButton buttonOption1;
     private JButton buttonOption2;
     private JButton buttonOption4;
-    private JPanel panelButtons;
-    private JPanel panelArt;
-    private JLabel labelQuestion;
+
     private JLabel labelLevel;
-    private JPanel panelLevel;
-    private JPanel panelHelp;
-    private JPanel panelQuestion;
-    private JPanel PanelTop;
-    private JLabel labelArt;
     private JLabel labelMoney;
+
     private JLabel labelWrong;
-    private JPanel panelRating;
-    private JPanel panelMain;
-    private JList listRating;
-    private JButton buttonNewGame;
     private JButton buttonHalf;
     private JButton buttonCall;
     private JButton buttonHall;
-    private JPanel panelNewGame;
+
+    private JList listRating;
+
+    private JButton buttonNewGame;
 
     private static ArrayList<Question> questions = new ArrayList<Question>();
     private static Question question;
@@ -102,6 +108,7 @@ public class Form extends JFrame {
             }
         });
 
+        //region Click Options
         buttonOption1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,11 +136,14 @@ public class Form extends JFrame {
                 ChekAnswer(4);
             }
         });
+        //endregion
 
+        //region Click Helps
         buttonHalf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setButtonHalfEnabled(false);
+
             }
         });
 
@@ -150,6 +160,7 @@ public class Form extends JFrame {
                 setButtonCallEnabled(false);
             }
         });
+        //endregion
     }
 
     public static void main(String[] args) {
