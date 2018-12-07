@@ -1,9 +1,6 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,19 +24,75 @@ public class Form extends JFrame {
     private JLabel labelArt;
     private JLabel labelMoney;
     private JLabel labelWrong;
-    private JLabel labelHalf;
-    private JLabel labelHall;
-    private JLabel labelCall;
     private JPanel panelRating;
     private JPanel panelMain;
     private JList listRating;
     private JButton buttonNewGame;
+    private JButton buttonHalf;
+    private JButton buttonCall;
+    private JButton buttonHall;
+    private JPanel panelNewGame;
 
     private static ArrayList<Question> questions = new ArrayList<Question>();
     private static Question question;
     private static Generation random = new Generation();//Отправляем нужный уровень
     private static int level;
     private static int[] money = {0, 500, 1000, 2000, 3000, 5000, 10000, 15000, 25000, 50000, 100000, 200000, 400000, 800000, 1500000, 3000000};
+
+    //region set Question
+    private void setLabelQuestionText() {
+        this.labelQuestion.setText(question.question);
+    }
+
+    private void setButtonsOptionsText() {
+        this.buttonOption1.setText(question.options[0]);
+        this.buttonOption2.setText(question.options[1]);
+        this.buttonOption3.setText(question.options[2]);
+        this.buttonOption4.setText(question.options[3]);
+    }
+    //endregion
+
+    //region set Level and Money
+    private void setLabelLevelText() {
+        this.labelLevel.setText("Уровень: " + question.level);
+    }
+
+    private void setLabelMoneyText() {
+        this.labelMoney.setText("Очки: " + money[level - 1]);
+    }
+    //endregion
+
+    //region set Helps Enabled
+    private void setButtonHalfEnabled(boolean b) {
+        this.buttonHalf.setEnabled(b);
+    }
+
+    private void setButtonCallEnabled(boolean b) {
+        this.buttonCall.setEnabled(b);
+    }
+
+    private void setButtonHallEnabled(boolean b) {
+        this.buttonHall.setEnabled(b);
+    }
+    //endregion
+
+    //region set Options Enabled
+    private void setButtonOption1Enabled(boolean b) {
+        this.buttonOption1.setEnabled(b);
+    }
+
+    private void setButtonOption2Enabled(boolean b) {
+        this.buttonOption2.setEnabled(b);
+    }
+
+    private void setButtonOption3Enabled(boolean b) {
+        this.buttonOption3.setEnabled(b);
+    }
+
+    private void setButtonOption4Enabled(boolean b) {
+        this.buttonOption4.setEnabled(b);
+    }
+    //endregion
 
     private Form() {
         buttonNewGame.addActionListener(new ActionListener() {
@@ -76,6 +129,27 @@ public class Form extends JFrame {
                 ChekAnswer(4);
             }
         });
+
+        buttonHalf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setButtonHalfEnabled(false);
+            }
+        });
+
+        buttonHall.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setButtonHallEnabled(false);
+            }
+        });
+
+        buttonCall.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setButtonCallEnabled(false);
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -87,7 +161,7 @@ public class Form extends JFrame {
 
         ParsingQuestion();
     }
-    
+
     private static void ParsingQuestion() {
         try {
             FileInputStream fstream = new FileInputStream("Voprosy.txt");
@@ -107,30 +181,34 @@ public class Form extends JFrame {
     private void NewGame() {
         level = 1;
         question = questions.get(random.Generat(level));
-        setQuestion(question);
+
+        setQuestion();
+
+        setButtonCallEnabled(true);
+        setButtonHalfEnabled(true);
+        setButtonHallEnabled(true);
+
+        setButtonOption1Enabled(true);
+        setButtonOption2Enabled(true);
+        setButtonOption3Enabled(true);
+        setButtonOption4Enabled(true);
     }
 
     private void ChekAnswer(int k) {
         if (k == question.answer) {
             level++;
             question = questions.get(random.Generat(level));
-            setQuestion(question);
+            setQuestion();
         } else {
             NewGame();
         }
     }
 
-    private void setQuestion(Question question) {
-        labelQuestion.setText(question.question);
+    private void setQuestion() {
+        setLabelQuestionText();
+        setButtonsOptionsText();
 
-        labelLevel.setText("Уровень: " + question.level);
-        labelMoney.setText("Очки: "+money[level-1]);
-
-        buttonOption1.setText(question.options[0]);
-        buttonOption2.setText(question.options[1]);
-        buttonOption3.setText(question.options[2]);
-        buttonOption4.setText(question.options[3]);
+        setLabelLevelText();
+        setLabelMoneyText();
     }
 }
-
-
