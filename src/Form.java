@@ -83,6 +83,13 @@ public class Form extends JFrame {
     //endregion
 
     //region set Options Enabled
+    private void setAllButtonsOptionEnabled(boolean b) {
+        setButtonOption1Enabled(b);
+        setButtonOption2Enabled(b);
+        setButtonOption3Enabled(b);
+        setButtonOption4Enabled(b);
+    }
+
     private void setButtonOption1Enabled(boolean b) {
         this.buttonOption1.setEnabled(b);
     }
@@ -144,6 +151,10 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setButtonHalfEnabled(false);
 
+                ArrayList<String> k = random.GeneratHalf(question.answer);
+
+                HalfButtonsEnabled(k.get(0));
+                HalfButtonsEnabled(k.get(1));
             }
         });
 
@@ -198,11 +209,6 @@ public class Form extends JFrame {
         setButtonCallEnabled(true);
         setButtonHalfEnabled(true);
         setButtonHallEnabled(true);
-
-        setButtonOption1Enabled(true);
-        setButtonOption2Enabled(true);
-        setButtonOption3Enabled(true);
-        setButtonOption4Enabled(true);
     }
 
     private void ChekAnswer(int k) {
@@ -216,10 +222,29 @@ public class Form extends JFrame {
     }
 
     private void setQuestion() {
+        setAllButtonsOptionEnabled(true);
+
         setLabelQuestionText();
         setButtonsOptionsText();
 
         setLabelLevelText();
         setLabelMoneyText();
+    }
+
+    private void HalfButtonsEnabled(String str) {
+        switch (str) {
+            case "1":
+                setButtonOption1Enabled(false);
+                break;
+            case "2":
+                setButtonOption2Enabled(false);
+                break;
+            case "3":
+                setButtonOption3Enabled(false);
+                break;
+            case "4":
+                setButtonOption4Enabled(false);
+                break;
+        }
     }
 }

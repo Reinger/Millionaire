@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Generation {
@@ -50,19 +52,24 @@ public class Generation {
     };
 
     public int Generat(int n) {
-        return (new Random().nextInt(difficult[n-1][1] - difficult[n-1][0] + 1) + difficult[n-1][0]);
+        return (new Random().nextInt(difficult[n - 1][1] - difficult[n - 1][0] + 1) + difficult[n - 1][0]);
     }
 
-    public int[] GeneratHalf(int n){
+    public ArrayList <String> GeneratHalf(int n) {
         int k;
-        int[] a={1, 1, 1, 1};
 
-        do{
-            k=new Random().nextInt(3);
-        }while(k!=n-1);
+        ArrayList <String> a=new ArrayList<String>();
+        a.add("1");
+        a.add("2");
+        a.add("3");
+        a.add("4");
 
-        a[n-1]=0;
-        a[k]=0;
+        do {
+            k = new Random().nextInt(3)+1;
+        } while (k == n);
+
+        a.remove(String.valueOf(k));
+        a.remove(String.valueOf(n));
 
         return a;
     }
