@@ -45,15 +45,34 @@ public class Form extends JFrame {
     private static Generation random = new Generation();//Отправляем нужный уровень
     private static int level;
     private static int[] money = {0, 500, 1000, 2000, 3000, 5000, 10000, 15000, 25000, 50000, 100000, 200000, 400000, 800000, 1500000, 3000000};
+    private static boolean wrong;
+    private static int wrongLevel;
+    private static int wrongN;
+
+    //region get and set wrongLevel and wrongN
+    private static int getWrongLevel() {
+        return wrongLevel;
+    }
+
+    private static void setWrongLevel(int wrongLevel) {
+        Form.wrongLevel = wrongLevel;
+    }
+
+    private static int getWrongN() {
+        return wrongN;
+    }
+
+    private static void setWrongN(int wrongN) {
+        Form.wrongN = wrongN;
+    }
+    //endregion
 
     //region Wrong
-    public static boolean isWrong() {
+    private static boolean isWrong() {
         return wrong;
     }
 
-    private static boolean wrong;
-
-    public void setHaveWrong(boolean b) {
+    private void setHaveWrong(boolean b) {
         if (b) {
             this.labelWrong.setForeground(Color.BLACK);
             wrong = b;
@@ -176,7 +195,13 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setButtonHalfEnabled(false);
 
-                ArrayList<String> k = random.GeneratHalf(question.answer);
+                ArrayList<String> k;
+
+                if (getWrongLevel()==level){
+                    k = random.GeneratHalf(question.answer, getWrongN());
+                }else{
+                    k = random.GeneratHalf(question.answer);
+                }
 
                 ButtonsEnabled(k.get(0));
                 ButtonsEnabled(k.get(1));
@@ -253,6 +278,8 @@ public class Form extends JFrame {
             if (isWrong()) {
                 setHaveWrong(false);
                 ButtonsEnabled(String.valueOf(k));
+                setWrongLevel(level);
+                setWrongN(k);
             } else {
                 NoGame();
             }

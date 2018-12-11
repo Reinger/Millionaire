@@ -73,4 +73,17 @@ public class Generation {
 
         return a;
     }
+
+    public ArrayList <String> GeneratHalf(int n1, int n2) {
+        ArrayList <String> a=new ArrayList<String>();
+        a.add("1");
+        a.add("2");
+        a.add("3");
+        a.add("4");
+
+        a.remove(String.valueOf(n1));
+        a.remove(String.valueOf(n2));
+
+        return a;
+    }
 }
