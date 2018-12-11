@@ -212,6 +212,8 @@ public class Form extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setButtonHallEnabled(false);
+
+                JOptionPane.showMessageDialog(null, "Зрители думают что это - "+question.options[question.answer-1]);
             }
         });
 
@@ -219,6 +221,8 @@ public class Form extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setButtonCallEnabled(false);
+
+                JOptionPane.showMessageDialog(null, "Я думаю ответ - "+question.options[question.answer-1]);
             }
         });
         //endregion
@@ -271,9 +275,15 @@ public class Form extends JFrame {
 
     private void CheckAnswer(int k) {
         if (k == question.answer) {
-            level++;
-            question = questions.get(random.Generat(level));
-            setQuestion();
+            if (level!=15){
+                level++;
+                question = questions.get(random.Generat(level));
+                setQuestion();
+            }else{
+                JOptionPane.showMessageDialog(null, "Поздравляю, вы выиграли");
+                NoGame();
+            }
+
         } else {
             if (isWrong()) {
                 setHaveWrong(false);
@@ -281,6 +291,7 @@ public class Form extends JFrame {
                 setWrongLevel(level);
                 setWrongN(k);
             } else {
+                JOptionPane.showMessageDialog(null, "Game over");
                 NoGame();
             }
         }
