@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Form extends JFrame {
@@ -40,6 +41,8 @@ public class Form extends JFrame {
 
     private JButton buttonNewGame;
 
+    private JTextField textPlayer;
+
     private static ArrayList<Question> questions = new ArrayList<Question>();
     private static Question question;
     private static Generation random = new Generation();//Отправляем нужный уровень
@@ -48,6 +51,12 @@ public class Form extends JFrame {
     private static boolean wrong;
     private static int wrongLevel;
     private static int wrongN;
+    private static String playerName;
+    private static ConnectionBD conn=new ConnectionBD();
+
+    private String getTextPlayerText() {
+        return textPlayer.getText();
+    }
 
     //region get and set wrongLevel and wrongN
     private static int getWrongLevel() {
@@ -155,7 +164,11 @@ public class Form extends JFrame {
         buttonNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NewGame();
+                try {
+                    NewGame();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -163,28 +176,44 @@ public class Form extends JFrame {
         buttonOption1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CheckAnswer(1);
+                try {
+                    CheckAnswer(1);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         buttonOption2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CheckAnswer(2);
+                try {
+                    CheckAnswer(2);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         buttonOption3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CheckAnswer(3);
+                try {
+                    CheckAnswer(3);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         buttonOption4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CheckAnswer(4);
+                try {
+                    CheckAnswer(4);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         //endregion
@@ -197,9 +226,9 @@ public class Form extends JFrame {
 
                 ArrayList<String> k;
 
-                if (getWrongLevel()==level){
+                if (getWrongLevel() == level) {
                     k = random.GeneratHalf(question.answer, getWrongN());
-                }else{
+                } else {
                     k = random.GeneratHalf(question.answer);
                 }
 
@@ -213,7 +242,7 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setButtonHallEnabled(false);
 
-                JOptionPane.showMessageDialog(null, "Зрители думают что это - "+question.options[question.answer-1]);
+                JOptionPane.showMessageDialog(null, "Зрители думают что это - " + question.options[question.answer - 1]);
             }
         });
 
@@ -222,13 +251,13 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setButtonCallEnabled(false);
 
-                JOptionPane.showMessageDialog(null, "Я думаю ответ - "+question.options[question.answer-1]);
+                JOptionPane.showMessageDialog(null, "Я думаю ответ - " + question.options[question.answer - 1]);
             }
         });
         //endregion
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         JFrame frame = new JFrame("Form");
         frame.setContentPane(new Form().panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -236,6 +265,9 @@ public class Form extends JFrame {
         frame.setVisible(true);
 
         ParsingQuestion();
+
+        conn.Conn();
+        conn.CreateDB();
     }
 
     private static void ParsingQuestion() {
@@ -254,15 +286,23 @@ public class Form extends JFrame {
         }
     }
 
-    private void NewGame() {
-        level = 1;
-        question = questions.get(random.Generat(level));
+    private void NewGame() throws SQLException{
+        ShowList();
 
-        setHaveWrong(true);
+        playerName = getTextPlayerText();
 
-        setQuestion();
+        if (playerName.length() != 0) {
+            level = 1;
+            question = questions.get(random.Generat(level));
 
-        setAllButtonsHelpsEnabled(true);
+            setHaveWrong(true);
+
+            setQuestion();
+
+            setAllButtonsHelpsEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Пожалуйста введите имя");
+        }
     }
 
     private void NoGame() {
@@ -273,15 +313,17 @@ public class Form extends JFrame {
         setAllButtonsOptionEnabled(false);
     }
 
-    private void CheckAnswer(int k) {
+    private void CheckAnswer(int k) throws SQLException {
         if (k == question.answer) {
-            if (level!=15){
+            if (level != 15) {
                 level++;
                 question = questions.get(random.Generat(level));
                 setQuestion();
-            }else{
+            } else {
+                conn.WriteDB(playerName,String.valueOf(money[level-1]));
                 JOptionPane.showMessageDialog(null, "Поздравляю, вы выиграли");
                 NoGame();
+                ShowList();
             }
 
         } else {
@@ -291,8 +333,10 @@ public class Form extends JFrame {
                 setWrongLevel(level);
                 setWrongN(k);
             } else {
+                conn.WriteDB(playerName,String.valueOf(money[level-1]));
                 JOptionPane.showMessageDialog(null, "Game over");
                 NoGame();
+                ShowList();
             }
         }
     }
@@ -322,5 +366,10 @@ public class Form extends JFrame {
                 setButtonOption4Enabled(false);
                 break;
         }
+    }
+
+    private void ShowList() throws SQLException{
+
+        listRating.setListData(conn.ReadDB());
     }
 }
