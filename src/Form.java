@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -45,6 +46,24 @@ public class Form extends JFrame {
     private static int level;
     private static int[] money = {0, 500, 1000, 2000, 3000, 5000, 10000, 15000, 25000, 50000, 100000, 200000, 400000, 800000, 1500000, 3000000};
 
+    //region Wrong
+    public static boolean isWrong() {
+        return wrong;
+    }
+
+    private static boolean wrong;
+
+    public void setHaveWrong(boolean b) {
+        if (b) {
+            this.labelWrong.setForeground(Color.BLACK);
+            wrong = b;
+        } else {
+            this.labelWrong.setForeground(Color.red);
+            wrong = b;
+        }
+    }
+    //endregion
+
     //region set Question
     private void setLabelQuestionText() {
         this.labelQuestion.setText(question.question);
@@ -69,6 +88,12 @@ public class Form extends JFrame {
     //endregion
 
     //region set Helps Enabled
+    private void setAllButtonsHelpsEnabled(boolean b) {
+        setButtonHalfEnabled(b);
+        setButtonCallEnabled(b);
+        setButtonHallEnabled(b);
+    }
+
     private void setButtonHalfEnabled(boolean b) {
         this.buttonHalf.setEnabled(b);
     }
@@ -153,8 +178,8 @@ public class Form extends JFrame {
 
                 ArrayList<String> k = random.GeneratHalf(question.answer);
 
-                HalfButtonsEnabled(k.get(0));
-                HalfButtonsEnabled(k.get(1));
+                ButtonsEnabled(k.get(0));
+                ButtonsEnabled(k.get(1));
             }
         });
 
@@ -204,11 +229,19 @@ public class Form extends JFrame {
         level = 1;
         question = questions.get(random.Generat(level));
 
+        setHaveWrong(true);
+
         setQuestion();
 
-        setButtonCallEnabled(true);
-        setButtonHalfEnabled(true);
-        setButtonHallEnabled(true);
+        setAllButtonsHelpsEnabled(true);
+    }
+
+    private void NoGame() {
+        setHaveWrong(true);
+
+        setAllButtonsHelpsEnabled(false);
+
+        setAllButtonsOptionEnabled(false);
     }
 
     private void CheckAnswer(int k) {
@@ -217,7 +250,12 @@ public class Form extends JFrame {
             question = questions.get(random.Generat(level));
             setQuestion();
         } else {
-            NewGame();
+            if (isWrong()) {
+                setHaveWrong(false);
+                ButtonsEnabled(String.valueOf(k));
+            } else {
+                NoGame();
+            }
         }
     }
 
@@ -231,7 +269,7 @@ public class Form extends JFrame {
         setLabelMoneyText();
     }
 
-    private void HalfButtonsEnabled(String str) {
+    private void ButtonsEnabled(String str) {
         switch (str) {
             case "1":
                 setButtonOption1Enabled(false);
