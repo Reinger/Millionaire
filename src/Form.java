@@ -119,28 +119,28 @@ public class Form extends JFrame {
         buttonOption1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChekAnswer(1);
+                CheckAnswer(1);
             }
         });
 
         buttonOption2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChekAnswer(2);
+                CheckAnswer(2);
             }
         });
 
         buttonOption3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChekAnswer(3);
+                CheckAnswer(3);
             }
         });
 
         buttonOption4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChekAnswer(4);
+                CheckAnswer(4);
             }
         });
         //endregion
@@ -211,7 +211,7 @@ public class Form extends JFrame {
         setButtonHallEnabled(true);
     }
 
-    private void ChekAnswer(int k) {
+    private void CheckAnswer(int k) {
         if (k == question.answer) {
             level++;
             question = questions.get(random.Generat(level));
